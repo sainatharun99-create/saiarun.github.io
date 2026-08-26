@@ -252,128 +252,62 @@
             card.querySelector('.view-360-btn').addEventListener('click', (e) => openViewer(e.target.getAttribute('data-src')));
         });
 
-        // --- CUSTOM GYROSCOPE CONTROLLER (Landscape Initialized) ---
+        // --- PANNELLUM EXACT GYRO CONTROL ---
         let viewer = null;
+        let pendingUrl = null;
         let gyroActive = false;
         let gyroPermissionGranted = false;
-        
-        let targetYaw = 0, targetPitch = 0;
-        let currentYaw = 0, currentPitch = 0;
-        let lastAlpha = null, lastBeta = null;
-        let calibrationDone = false;
-        let animFrameId = null;
 
-        function startCustomGyro() {
-            if (gyroActive) return;
+        function initPannellum(url) {
+            if (viewer) { viewer.destroy(); viewer = null; }
+            viewer = pannellum.viewer('panorama', {
+                type: 'equirectangular',
+                panorama: url,
+                autoLoad: true,
+                showControls: true,
+                hfov: 110,
+                yaw: 0,   // Start at Front of Image
+                pitch: 0  // Start at Real-Time Ground/Horizon
+            });
+        }
+
+        // Uses Pannellum's exact native orientation API
+        function enableGyro() {
+            if (!viewer) return;
+            // Reset to Front (yaw 0) and Ground (pitch 0) before enabling
+            viewer.setYaw(0, false);
+            viewer.setPitch(0, false);
+            viewer.startOrientation(); // Pannellum anchors current view to physical direction
             gyroActive = true;
-            calibrationDone = false;
-            targetYaw = 0; targetPitch = 0;
-            currentYaw = 0; currentPitch = 0;
-            
-            window.addEventListener('deviceorientation', onDeviceOrientation, true);
-            animFrameId = requestAnimationFrame(gyroLoop);
         }
 
-        function stopCustomGyro() {
+        function disableGyro() {
+            if (viewer) viewer.stopOrientation();
             gyroActive = false;
-            window.removeEventListener('deviceorientation', onDeviceOrientation, true);
-            if (animFrameId) cancelAnimationFrame(animFrameId);
         }
 
-        function onDeviceOrientation(e) {
-            if (e.alpha === null || e.beta === null || e.gamma === null) return;
-            
-            let alpha = e.alpha; 
-            let beta = e.beta;   
-            let gamma = e.gamma; 
-            
-            // Live screen orientation mapping (Forces Landscape as Baseline)
-            let screenAngle = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
-            let yawDeg, pitchDeg;
-            
-            if (screenAngle === 90) {
-                // Landscape (Top to Left)
-                pitchDeg = beta; 
-                yawDeg = alpha;
-            } else if (screenAngle === -90 || screenAngle === 270) {
-                // Landscape (Top to Right)
-                pitchDeg = beta;
-                yawDeg = alpha + 180;
-            } else if (screenAngle === 180) {
-                // Portrait Upside Down
-                pitchDeg = beta + 90;
-                yawDeg = alpha + 180;
-            } else {
-                // Portrait Upright (Offset by 90 to sync with Landscape Forward)
-                pitchDeg = beta - 90;
-                yawDeg = alpha + 90;
+        // Fix Portrait/Landscape lock by restarting Pannellum's gyro on rotate
+        window.addEventListener('orientationchange', () => {
+            const modal = document.getElementById('viewer-modal');
+            if (modal.classList.contains('active') && gyroActive && viewer) {
+                disableGyro();
+                setTimeout(() => {
+                    enableGyro(); // Re-anchors front/ground to new physical orientation
+                }, 500); // Wait for layout to settle
             }
-            
-            pitchDeg = Math.max(-90, Math.min(90, pitchDeg));
-            
-            // Calibrate First Frame (Becomes Front View & Ground)
-            if (!calibrationDone) {
-                lastAlpha = yawDeg;
-                lastBeta = pitchDeg;
-                calibrationDone = true;
-                return; 
-            }
-            
-            let deltaYaw = yawDeg - lastAlpha;
-            let deltaPitch = pitchDeg - lastBeta;
-            
-            // 360 Wrap Fix (User's Math Logic)
-            if (deltaYaw > 180) deltaYaw -= 360;
-            if (deltaYaw < -180) deltaYaw += 360;
-            if (lastAlpha * yawDeg < 0 && Math.abs(deltaYaw) > 180) {
-                lastAlpha = -lastAlpha;
-            }
-            
-            // Apply Deltas (Turn Right -> Look Right, Tilt Up -> Look Up)
-            targetYaw += deltaYaw;
-            targetPitch += deltaPitch;
-            targetPitch = Math.max(-85, Math.min(85, targetPitch)); // Clamp horizon
-            
-            lastAlpha = yawDeg;
-            lastBeta = pitchDeg;
-        }
+        });
 
-        function gyroLoop() {
-            if (!gyroActive || !viewer) return;
-            
-            // Unwrap targetYaw to prevent Pannellum spin-glitch
-            while (targetYaw > currentYaw + 180) targetYaw -= 360;
-            while (targetYaw < currentYaw - 180) targetYaw += 360;
-            
-            // Smoothing (Slerp/Lerp)
-            currentYaw += (targetYaw - currentYaw) * 0.15;
-            currentPitch += (targetPitch - currentPitch) * 0.15;
-            
-            viewer.setYaw(currentYaw, 0);
-            viewer.setPitch(currentPitch, 0);
-            
-            animFrameId = requestAnimationFrame(gyroLoop);
-        }
-
-        // --- VIEWER LIFECYCLE ---
         function openViewer(imageUrl) {
             const modal = document.getElementById('viewer-modal');
             modal.classList.add('active');
+            pendingUrl = imageUrl;
             
-            // Attempt to Force Landscape Mode for Mobile
+            // Attempt to force Landscape Mode for Mobile
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('landscape').catch(() => {});
             }
             
-            if (viewer) { viewer.destroy(); viewer = null; }
-            viewer = pannellum.viewer('panorama', {
-                type: 'equirectangular',
-                panorama: imageUrl,
-                autoLoad: true,
-                showControls: true,
-                hfov: 110,
-                yaw: 0, pitch: 0 // Start exactly at Front View / Real-Time Ground
-            });
+            initPannellum(pendingUrl);
             
             const gyroBtn = document.getElementById('gyro-btn');
             gyroBtn.style.display = 'none';
@@ -387,25 +321,27 @@
                             if (state === 'granted') {
                                 gyroPermissionGranted = true;
                                 gyroBtn.style.display = 'none';
-                                startCustomGyro();
+                                enableGyro();
                             } else {
                                 alert("Gyroscope access denied. You can drag to look around.");
                             }
                         }).catch(console.error);
                     };
                 } else {
-                    startCustomGyro();
+                    enableGyro();
                 }
             } else {
                 // Android / Desktop Auto-Start
-                if (/Mobi|Android/i.test(navigator.userAgent)) startCustomGyro();
+                if (/Mobi|Android/i.test(navigator.userAgent)) {
+                    enableGyro();
+                }
             }
         }
 
         function closeViewer() {
             const modal = document.getElementById('viewer-modal');
             modal.classList.remove('active');
-            stopCustomGyro();
+            disableGyro();
             
             // Unlock Orientation
             if (screen.orientation && screen.orientation.unlock) {
