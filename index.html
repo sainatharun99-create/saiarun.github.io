@@ -6,7 +6,7 @@
     <meta name="description" content="SaiArun - Neo-Classical Interior Design. Everytime failing leads to a new beginning!">
     <title>SaiArun | Neo-Classical Interior Design</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts for Neo-Classical Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
@@ -43,108 +43,180 @@
 
         body::before {
             content: '';
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.04"/></svg>');
-            pointer-events: none; z-index: 9999;
+            pointer-events: none;
+            z-index: 9999;
         }
 
+        /* ================= TYPOGRAPHY ================= */
         h1, h2, h3, .logo-text { font-family: var(--font-head); font-weight: 600; letter-spacing: 0.15em; }
         p { font-size: 1.2rem; font-weight: 300; color: var(--text-muted); }
         .gold-text {
             background: linear-gradient(45deg, var(--gold-dark), var(--gold-light), var(--gold-primary));
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
-            color: var(--gold-light); /* Fallback */
         }
 
-        /* NAVIGATION */
-        header { position: fixed; top: 0; width: 100%; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: var(--transition); border-bottom: 1px solid transparent; }
-        header.scrolled { background: rgba(12, 11, 10, 0.85); backdrop-filter: blur(10px); padding: 1rem 4rem; border-bottom: 1px solid rgba(197, 160, 89, 0.2); }
+        /* ================= NAVIGATION ================= */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 1.5rem 4rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: var(--transition);
+            border-bottom: 1px solid transparent;
+        }
+        header.scrolled {
+            background: rgba(12, 11, 10, 0.85); backdrop-filter: blur(10px);
+            padding: 1rem 4rem; border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+        }
         .logo { display: flex; align-items: center; gap: 1rem; cursor: pointer; }
         .logo svg { width: 40px; height: 40px; fill: none; stroke: var(--gold-primary); stroke-width: 1.5; transition: var(--transition); }
         .logo:hover svg { transform: rotate(180deg); stroke: var(--gold-light); }
         .logo-text { font-size: 1.5rem; letter-spacing: 0.3em; }
+        
         nav { display: flex; gap: 2.5rem; }
-        nav a { color: var(--text-main); text-decoration: none; font-family: var(--font-ui); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; position: relative; padding-bottom: 0.3rem; }
-        nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 1px; background: var(--gold-primary); transition: var(--transition); }
+        nav a {
+            color: var(--text-main); text-decoration: none; font-family: var(--font-ui);
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em;
+            position: relative; padding-bottom: 0.3rem;
+        }
+        nav a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 1px;
+            background: var(--gold-primary); transition: var(--transition);
+        }
         nav a:hover::after { width: 100%; }
         nav a:hover { color: var(--gold-light); }
 
-        /* HERO */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; }
-        .hero-bg { position: absolute; top: -20%; left: -20%; width: 140%; height: 140%; background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.08) 0%, transparent 60%); z-index: 0; transition: transform 0.2s ease-out; }
-        .hero-arch { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; opacity: 0.03; z-index: 0; animation: float 12s ease-in-out infinite; }
+        /* ================= HERO SECTION ================= */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; top: -20%; left: -20%; width: 140%; height: 140%;
+            background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.08) 0%, transparent 60%);
+            z-index: 0; transition: transform 0.2s ease-out;
+        }
+        .hero-arch {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 600px; height: 600px; opacity: 0.03; z-index: 0;
+            animation: float 12s ease-in-out infinite;
+        }
         @keyframes float { 0%, 100% { transform: translate(-50%, -50%) translateY(0); } 50% { transform: translate(-50%, -50%) translateY(-30px); } }
+
         .hero-content { z-index: 10; padding: 0 2rem; }
         .hero h1 { font-size: 5rem; margin-bottom: 1rem; text-transform: uppercase; }
-        .slogan { font-family: var(--font-body); font-style: italic; font-size: 1.8rem; color: var(--gold-light); margin-bottom: 3rem; letter-spacing: 0.05em; }
-        .cta { display: inline-block; padding: 1rem 3rem; border: 1px solid var(--gold-primary); color: var(--gold-primary); text-decoration: none; font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; position: relative; overflow: hidden; transition: var(--transition); cursor: pointer; background: transparent; }
-        .cta::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--gold-primary); transition: var(--transition); z-index: -1; }
+        .slogan {
+            font-family: var(--font-body); font-style: italic; font-size: 1.8rem;
+            color: var(--gold-light); margin-bottom: 3rem; letter-spacing: 0.05em;
+        }
+        .cta {
+            display: inline-block; padding: 1rem 3rem; border: 1px solid var(--gold-primary);
+            color: var(--gold-primary); text-decoration: none; font-family: var(--font-ui);
+            font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+            position: relative; overflow: hidden; transition: var(--transition);
+        }
+        .cta::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: var(--gold-primary); transition: var(--transition); z-index: -1;
+        }
         .cta:hover { color: var(--bg-base); }
         .cta:hover::before { left: 0; }
 
-        /* SECTIONS */
+        /* ================= PHILOSOPHY SECTION ================= */
         .philosophy { padding: 10rem 4rem; text-align: center; position: relative; }
         .section-title { font-size: 2.5rem; margin-bottom: 4rem; }
-        .quote-box { max-width: 900px; margin: 0 auto 4rem; padding: 4rem; border: 1px solid rgba(197, 160, 89, 0.2); position: relative; background: linear-gradient(180deg, var(--bg-surface) 0%, transparent 100%); }
-        .quote-box::before, .quote-box::after { content: ''; position: absolute; width: 20px; height: 20px; border: 1px solid var(--gold-primary); }
+        
+        .quote-box {
+            max-width: 900px; margin: 0 auto 4rem; padding: 4rem;
+            border: 1px solid rgba(197, 160, 89, 0.2); position: relative;
+            background: linear-gradient(180deg, var(--bg-surface) 0%, transparent 100%);
+        }
+        .quote-box::before, .quote-box::after {
+            content: ''; position: absolute; width: 20px; height: 20px; border: 1px solid var(--gold-primary);
+        }
         .quote-box::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
         .quote-box::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
-        .quote-box blockquote { font-size: 2.2rem; font-style: italic; color: var(--text-main); line-height: 1.4; margin-bottom: 2rem; }
+        
+        .quote-box blockquote {
+            font-size: 2.2rem; font-style: italic; color: var(--text-main); line-height: 1.4;
+            margin-bottom: 2rem;
+        }
         .quote-box blockquote span { color: var(--gold-primary); }
 
+        /* ================= PORTFOLIO / SPACES ================= */
         .spaces { padding: 5rem 4rem 10rem; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .card { position: relative; height: 450px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
-        .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s ease; filter: grayscale(40%) contrast(1.1); }
+        .card {
+            position: relative; height: 450px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+        .card img {
+            width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s ease;
+            filter: grayscale(40%) contrast(1.1);
+        }
         .card:hover img { transform: scale(1.1); filter: grayscale(0%) contrast(1.2); }
-        .card-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem; background: linear-gradient(transparent, rgba(12,11,10,0.9)); transform: translateY(20px); opacity: 0; transition: var(--transition); }
+        .card-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem;
+            background: linear-gradient(transparent, rgba(12,11,10,0.9));
+            transform: translateY(20px); opacity: 0; transition: var(--transition);
+        }
         .card:hover .card-overlay { transform: translateY(0); opacity: 1; }
         .card-overlay h3 { font-size: 1.5rem; color: var(--gold-light); margin-bottom: 0.5rem; }
 
+        /* ================= DYNAMIC ICONS / SERVICES ================= */
         .disciplines { padding: 8rem 4rem; background: var(--bg-surface); text-align: center; }
         .icon-grid { display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; margin-top: 4rem; }
         .icon-item { width: 200px; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
         .icon-wrapper { width: 80px; height: 80px; position: relative; }
+        
         .dyn-icon { width: 100%; height: 100%; fill: none; stroke: var(--gold-primary); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
         .dyn-icon circle, .dyn-icon path, .dyn-icon line { transition: stroke-dashoffset 2s ease; }
+        
         .spin-slow { animation: spin 20s linear infinite; transform-origin: center; }
         .float-icon { animation: floatIcon 4s ease-in-out infinite; }
+        
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
         .icon-item:hover .dyn-icon { stroke: var(--gold-light); filter: drop-shadow(0 0 8px rgba(197,160,89,0.5)); }
         .icon-item h4 { font-family: var(--font-head); font-size: 1rem; letter-spacing: 0.1em; color: var(--text-main); }
         .icon-item p { font-size: 0.95rem; text-align: center; }
 
+        /* ================= CONTACT ================= */
         .contact { padding: 10rem 4rem; text-align: center; position: relative; }
         .contact-form { max-width: 600px; margin: 3rem auto 0; display: flex; flex-direction: column; gap: 1.5rem; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 1rem; background: transparent; border: none; border-bottom: 1px solid rgba(197, 160, 89, 0.3); color: var(--text-main); font-family: var(--font-body); font-size: 1.2rem; transition: var(--transition); }
-        .contact-form input:focus, .contact-form textarea:focus { outline: none; border-bottom-color: var(--gold-light); background: rgba(197, 160, 89, 0.05); }
-        .contact-form button { margin-top: 2rem; padding: 1rem; background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-primary); font-family: var(--font-ui); letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: var(--transition); }
+        .contact-form input, .contact-form textarea {
+            width: 100%; padding: 1rem; background: transparent; border: none;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.3); color: var(--text-main);
+            font-family: var(--font-body); font-size: 1.2rem; transition: var(--transition);
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none; border-bottom-color: var(--gold-light); background: rgba(197, 160, 89, 0.05);
+        }
+        .contact-form button {
+            margin-top: 2rem; padding: 1rem; background: transparent; border: 1px solid var(--gold-primary);
+            color: var(--gold-primary); font-family: var(--font-ui); letter-spacing: 0.2em; text-transform: uppercase;
+            cursor: pointer; transition: var(--transition);
+        }
         .contact-form button:hover { background: var(--gold-primary); color: var(--bg-base); }
 
+        /* ================= FOOTER ================= */
         footer { padding: 3rem 4rem; border-top: 1px solid rgba(197, 160, 89, 0.1); display: flex; justify-content: space-between; align-items: center; font-family: var(--font-ui); font-size: 0.8rem; color: var(--text-muted); }
         .socials { display: flex; gap: 1.5rem; }
         .socials a { color: var(--text-muted); text-decoration: none; transition: var(--transition); }
         .socials a:hover { color: var(--gold-light); }
 
+        /* ================= SCROLL REVEAL ANIMATION ================= */
         .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* 360 MODAL & PROJECTS CSS */
-        .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 10000; display: none; flex-direction: column; }
-        .modal.active { display: flex; }
-        #panorama { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; }
-        .modal-controls { position: absolute; top: 20px; right: 20px; z-index: 10001; }
-        .modal-controls button { background: rgba(12, 11, 10, 0.8); border: 1px solid var(--gold-primary); color: var(--gold-light); padding: 0.8rem 1.5rem; font-family: var(--font-ui); cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem; transition: var(--transition); backdrop-filter: blur(5px); }
-        .modal-controls button:hover { background: var(--gold-primary); color: var(--bg-base); }
-        #gyro-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10001; padding: 15px 25px; font-size: 16px; background: #fff; color: #000; border: none; border-radius: 8px; cursor: pointer; display: none; font-family: var(--font-ui); box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-weight: bold; }
-        .upload-box { text-align: center; margin-top: 4rem; padding: 3rem; border: 1px dashed rgba(197,160,89,0.4); background: var(--bg-surface); }
-        #projSearch { text-align: center; max-width: 600px; margin: 0 auto 3rem; width: 100%; padding: 1rem; background: transparent; border: 1px solid rgba(197,160,89,0.3); color: var(--text-main); font-family: var(--font-body); font-size: 1.2rem; }
-
+        /* ================= RESPONSIVE ================= */
         @media (max-width: 768px) {
             header { padding: 1rem 2rem; flex-direction: column; gap: 1rem; }
+            header.scrolled { padding: 1rem 2rem; }
             nav { gap: 1rem; flex-wrap: wrap; justify-content: center; }
             .hero h1 { font-size: 3rem; }
             .slogan { font-size: 1.2rem; }
@@ -153,6 +225,34 @@
             .quote-box blockquote { font-size: 1.5rem; }
             footer { flex-direction: column; gap: 1rem; text-align: center; }
         }
+
+        /* ================= 360 INTEGRATION CSS ================= */
+        .gold-text { background-clip: text; }
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; z-index: 10000; display: none; flex-direction: column;
+        }
+        .modal.active { display: flex; }
+        #panorama { width: 100%; flex-grow: 1; background: #000; }
+        .modal-controls { position: absolute; top: 20px; right: 20px; z-index: 10001; }
+        .modal-controls button {
+            background: rgba(12, 11, 10, 0.8); border: 1px solid var(--gold-primary);
+            color: var(--gold-light); padding: 0.8rem 1.5rem; font-family: var(--font-ui);
+            cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem;
+            transition: var(--transition); backdrop-filter: blur(5px);
+        }
+        .modal-controls button:hover { background: var(--gold-primary); color: var(--bg-base); }
+        #gyro-btn {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 10001; padding: 15px 25px; font-size: 16px; background: #fff; color: #000;
+            border: none; border-radius: 8px; cursor: pointer; display: none; font-family: var(--font-ui);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-weight: bold;
+        }
+        .upload-box {
+            text-align: center; margin-top: 4rem; padding: 3rem; border: 1px dashed rgba(197,160,89,0.4);
+            background: var(--bg-surface);
+        }
+        /* Removed unused .pano-thumb to keep code clean */
     </style>
 </head>
 <body>
@@ -160,13 +260,15 @@
     <!-- HEADER -->
     <header id="header">
         <div class="logo" onclick="window.scrollTo(0,0)">
-            <svg viewBox="0 0 100 100"><path d="M50 10 L90 90 L10 90 Z" stroke-dasharray="200" stroke-dashoffset="0"/><circle cx="50" cy="65" r="15" class="spin-slow" stroke-dasharray="5 5"/></svg>
+            <svg viewBox="0 0 100 100">
+                <path d="M50 10 L90 90 L10 90 Z" stroke-dasharray="200" stroke-dashoffset="0"/>
+                <circle cx="50" cy="65" r="15" class="spin-slow" stroke-dasharray="5 5"/>
+            </svg>
             <span class="logo-text gold-text">SAIARUN</span>
         </div>
         <nav>
             <a href="#philosophy">Philosophy</a>
             <a href="#spaces">Spaces</a>
-            <a href="#projects">Projects</a>
             <a href="#virtual-tours">360 Tours</a>
             <a href="#disciplines">Disciplines</a>
             <a href="#contact">Dialogue</a>
@@ -176,7 +278,11 @@
     <!-- HERO -->
     <section class="hero" id="home">
         <div class="hero-bg" id="parallax"></div>
-        <svg class="hero-arch" viewBox="0 0 100 100"><path d="M10 90 L10 50 A40 40 0 0 1 90 50 L90 90" fill="none" stroke="currentColor" stroke-width="2"/><line x1="50" y1="10" x2="50" y2="90" stroke="currentColor" stroke-width="1"/></svg>
+        <svg class="hero-arch" viewBox="0 0 100 100">
+            <path d="M10 90 L10 50 A40 40 0 0 1 90 50 L90 90" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="50" y1="10" x2="50" y2="90" stroke="currentColor" stroke-width="1"/>
+        </svg>
+        
         <div class="hero-content">
             <h1 class="reveal gold-text">SaiArun</h1>
             <p class="slogan reveal">"Everytime failing leads to a new beginning!"</p>
@@ -188,48 +294,101 @@
     <section class="philosophy" id="philosophy">
         <h2 class="section-title reveal gold-text">The Genesis of Form</h2>
         <div class="quote-box reveal">
-            <blockquote>In the ruins of the mundane, we discover the sublime. <br><span>"Everytime failing leads to a new beginning!"</span><br>We architect not just spaces, but the resilience of the human spirit.</blockquote>
-            <p>Our neo-classical approach intertwines the grandeur of antiquity with the silent poetry of modern minimalism.</p>
+            <blockquote>
+                In the ruins of the mundane, we discover the sublime. <br>
+                <span>"Everytime failing leads to a new beginning!"</span><br>
+                We architect not just spaces, but the resilience of the human spirit.
+            </blockquote>
+            <p>Our neo-classical approach intertwines the grandeur of antiquity with the silent poetry of modern minimalism. Every shadow cast, every column raised, is a dialogue between what was and what could be.</p>
         </div>
     </section>
 
-    <!-- SPACES -->
+    <!-- SPACES / PORTFOLIO -->
     <section class="spaces" id="spaces">
         <h2 class="section-title reveal gold-text" style="text-align:center; margin-bottom: 3rem;">Curated Spaces</h2>
         <div class="grid">
-            <div class="card reveal"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800" alt="Classical Living"><div class="card-overlay"><h3>The Marble Silence</h3><p>A study in symmetry and stone.</p></div></div>
-            <div class="card reveal"><img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=800" alt="Minimalist Classical"><div class="card-overlay"><h3>Void & Gold</h3><p>Where emptiness becomes ornament.</p></div></div>
-            <div class="card reveal"><img src="https://images.unsplash.com/photo-1615875605825-5eb9bb5d52ac?auto=format&fit=crop&q=80&w=800" alt="Sculptural Interior"><div class="card-overlay"><h3>The Apollo Wing</h3><p>Light sculpting the eternal form.</p></div></div>
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800" alt="Classical Living">
+                <div class="card-overlay">
+                    <h3>The Marble Silence</h3>
+                    <p>A study in symmetry and stone.</p>
+                </div>
+            </div>
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=800" alt="Minimalist Classical">
+                <div class="card-overlay">
+                    <h3>Void & Gold</h3>
+                    <p>Where emptiness becomes ornament.</p>
+                </div>
+            </div>
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1615875605825-5eb9bb5d52ac?auto=format&fit=crop&q=80&w=800" alt="Sculptural Interior">
+                <div class="card-overlay">
+                    <h3>The Apollo Wing</h3>
+                    <p>Light sculpting the eternal form.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- PROJECTS (No Password, with Search & Thumbnails) -->
-    <section class="spaces" id="projects">
-        <h2 class="section-title reveal gold-text" style="text-align:center; margin-bottom: 3rem;">Client Projects</h2>
-        <input type="text" id="projSearch" placeholder="Search project name...">
-        <div class="grid" id="projList"></div>
-    </section>
-
-    <!-- 360 VIRTUAL TOURS (With Real Thumbnails) -->
+    <!-- 360 VIRTUAL TOURS -->
     <section class="spaces" id="virtual-tours">
         <h2 class="section-title reveal gold-text" style="text-align:center; margin-bottom: 3rem;">Immersive 360 Tours</h2>
+        
+        <!-- Admin Gallery Grid (Auto-populated via JS) -->
         <div class="grid" id="grid-360"></div>
+
+        <!-- User Upload Box -->
         <div class="upload-box reveal">
             <h3 class="gold-text" style="margin-bottom:1rem; font-family: var(--font-head); letter-spacing: 0.1em;">Client Preview Tool</h3>
-            <p style="margin-bottom:1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">Have your own 360 equirectangular image? Upload it below to view it instantly.</p>
+            <p style="margin-bottom:1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">Have your own 360 equirectangular image? Upload it below to view it instantly in fullscreen with gyroscope support on mobile.</p>
             <input type="file" id="user-360-upload" accept="image/jpeg, image/png" style="display:none;" />
             <button class="cta" onclick="document.getElementById('user-360-upload').click()">Upload & View 360</button>
         </div>
     </section>
 
-    <!-- DISCIPLINES -->
+    <!-- DISCIPLINES / DYNAMIC ICONS -->
     <section class="disciplines" id="disciplines">
         <h2 class="section-title reveal gold-text">Our Disciplines</h2>
         <p class="reveal" style="max-width: 600px; margin: 0 auto;">We employ dynamic principles of design, ensuring every element breathes and interacts with its environment.</p>
+        
         <div class="icon-grid">
-            <div class="icon-item reveal"><div class="icon-wrapper"><svg class="dyn-icon float-icon" viewBox="0 0 100 100"><circle cx="35" cy="50" r="20" /><circle cx="65" cy="50" r="20" class="spin-slow" /><path d="M50 10 V90 M10 50 H90" stroke-width="0.5" opacity="0.5"/></svg></div><h4>Spatial Harmony</h4><p>Balancing proportion with purposeful voids.</p></div>
-            <div class="icon-item reveal"><div class="icon-wrapper"><svg class="dyn-icon" viewBox="0 0 100 100"><path d="M40 20 H60 M45 20 C30 40, 30 70, 50 80 C70 70, 70 40, 55 20" class="float-icon"/><line x1="20" y1="50" x2="80" y2="50" stroke-dasharray="2 4" class="spin-slow"/></svg></div><h4>Material Poetry</h4><p>Stone, brass, and silk in quiet conversation.</p></div>
-            <div class="icon-item reveal"><div class="icon-wrapper"><svg class="dyn-icon" viewBox="0 0 100 100"><circle cx="50" cy="50" r="15" class="float-icon"/><line x1="50" y1="10" x2="50" y2="25" class="spin-slow" transform-origin="50 50"/><line x1="50" y1="75" x2="50" y2="90" class="spin-slow" transform-origin="50 50"/><line x1="10" y1="50" x2="25" y2="50" class="spin-slow" transform-origin="50 50"/><line x1="75" y1="50" x2="90" y2="50" class="spin-slow" transform-origin="50 50"/></svg></div><h4>Light & Shadow</h4><p>Choreographing the sun's daily theatre.</p></div>
+            <div class="icon-item reveal">
+                <div class="icon-wrapper">
+                    <svg class="dyn-icon float-icon" viewBox="0 0 100 100">
+                        <circle cx="35" cy="50" r="20" />
+                        <circle cx="65" cy="50" r="20" class="spin-slow" />
+                        <path d="M50 10 V90 M10 50 H90" stroke-width="0.5" opacity="0.5"/>
+                    </svg>
+                </div>
+                <h4>Spatial Harmony</h4>
+                <p>Balancing proportion with purposeful voids.</p>
+            </div>
+            
+            <div class="icon-item reveal">
+                <div class="icon-wrapper">
+                    <svg class="dyn-icon" viewBox="0 0 100 100">
+                        <path d="M40 20 H60 M45 20 C30 40, 30 70, 50 80 C70 70, 70 40, 55 20" class="float-icon"/>
+                        <line x1="20" y1="50" x2="80" y2="50" stroke-dasharray="2 4" class="spin-slow"/>
+                    </svg>
+                </div>
+                <h4>Material Poetry</h4>
+                <p>Stone, brass, and silk in quiet conversation.</p>
+            </div>
+            
+            <div class="icon-item reveal">
+                <div class="icon-wrapper">
+                    <svg class="dyn-icon" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="15" class="float-icon"/>
+                        <line x1="50" y1="10" x2="50" y2="25" class="spin-slow" transform-origin="50 50"/>
+                        <line x1="50" y1="75" x2="50" y2="90" class="spin-slow" transform-origin="50 50"/>
+                        <line x1="10" y1="50" x2="25" y2="50" class="spin-slow" transform-origin="50 50"/>
+                        <line x1="75" y1="50" x2="90" y2="50" class="spin-slow" transform-origin="50 50"/>
+                    </svg>
+                </div>
+                <h4>Light & Shadow</h4>
+                <p>Choreographing the sun's daily theatre.</p>
+            </div>
         </div>
     </section>
 
@@ -238,129 +397,177 @@
         <h2 class="section-title reveal gold-text">Begin the Dialogue</h2>
         <p class="reveal">Let us architect your rebirth through space.</p>
         <form class="contact-form reveal" onsubmit="event.preventDefault(); alert('Message sent to SaiArun Atelier.');">
-            <input type="text" placeholder="Your Name" required><input type="email" placeholder="Your Email" required><textarea rows="4" placeholder="Describe your vision..."></textarea><button type="submit">Send Missive</button>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea rows="4" placeholder="Describe your vision..."></textarea>
+            <button type="submit">Send Missive</button>
         </form>
     </section>
 
-    <footer><div>&copy; 2023 SaiArun Atelier. All rights reserved.</div><div class="socials"><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">Journal</a></div></footer>
+    <!-- FOOTER -->
+    <footer>
+        <div>&copy; 2023 SaiArun Atelier. All rights reserved.</div>
+        <div class="socials">
+            <a href="#">Instagram</a>
+            <a href="#">Pinterest</a>
+            <a href="#">Journal</a>
+        </div>
+    </footer>
 
-    <!-- 360 MODAL -->
+    <!-- 360 MODAL VIEWER -->
     <div id="viewer-modal" class="modal">
-        <div class="modal-controls"><button onclick="closeViewer()">Close ✕</button></div>
+        <div class="modal-controls">
+            <button onclick="closeViewer()">Close ✕</button>
+        </div>
         <button id="gyro-btn">Tap to Enable 360 Gyroscope</button>
         <div id="panorama"></div>
     </div>
 
+    <!-- Pannellum 360 Viewer JS -->
     <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
-    <script>
-        // --- Core Site JS ---
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => { if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled'); });
-        const parallaxBg = document.getElementById('parallax');
-        document.addEventListener('mousemove', (e) => { const x = (e.clientX / window.innerWidth - 0.5) * 30; const y = (e.clientY / window.innerHeight - 0.5) * 30; parallaxBg.style.transform = `translate(${x}px, ${y}px)`; });
-        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); }, { threshold: 0.15 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        document.querySelectorAll('.dyn-icon').forEach(icon => { icon.querySelectorAll('path, circle, line').forEach(p => { const len = p.getTotalLength ? p.getTotalLength() : 100; p.style.strokeDasharray = len; p.style.strokeDashoffset = len; setTimeout(() => { p.style.transition = 'stroke-dashoffset 2s ease-out'; p.style.strokeDashoffset = '0'; }, 300); }); });
 
-        // --- Projects Data (No Password) ---
-        const projectsData = [
+    <!-- JAVASCRIPT FOR DYNAMIC INTERACTION -->
+    <script>
+        // 1. Navbar Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        // 2. Mesmerizing Parallax Effect on Hero
+        const parallaxBg = document.getElementById('parallax');
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 30;
+            const y = (e.clientY / window.innerHeight - 0.5) * 30;
+            parallaxBg.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // 3. Scroll Reveal Animations (Intersection Observer)
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+        
+        reveals.forEach(el => observer.observe(el));
+
+        // 4. Dynamic SVG Stroke Animation on Load
+        document.querySelectorAll('.dyn-icon').forEach(icon => {
+            const paths = icon.querySelectorAll('path, circle, line');
+            paths.forEach(p => {
+                const len = p.getTotalLength ? p.getTotalLength() : 100;
+                p.style.strokeDasharray = len;
+                p.style.strokeDashoffset = len;
+                setTimeout(() => {
+                    p.style.transition = 'stroke-dashoffset 2s ease-out';
+                    p.style.strokeDashoffset = '0';
+                }, 300);
+            });
+        });
+
+        // 5. 360 VIRTUAL TOURS LOGIC
+        const adminPanoramas = [
             {
-                name: "Celeste Penthouse",
-                panos: [
-                    { src: 'https://pannellum.org/images/alma.jpg', title: 'Celeste Living', desc: 'Demo 360' },
-                    { src: 'https://pannellum.org/images/cerro-toco-0.jpg', title: 'Celeste Terrace', desc: 'Demo 360' }
-                ]
+                src: 'https://pannellum.org/images/alma.jpg', 
+                title: 'The Marble Silence 360',
+                desc: 'A study in symmetry and stone (Demo).'
             },
             {
-                name: "Marble Atrium",
-                panos: [
-                    { src: 'https://pannellum.org/images/cerro-toco-0.jpg', title: 'Atrium View', desc: 'Demo 360' }
-                ]
+                src: 'https://pannellum.org/images/cerro-toco-0.jpg', 
+                title: 'Void & Gold 360',
+                desc: 'Where emptiness becomes ornament (Demo).'
+            },
+            {
+                src: 'panoramas/city.jpg', 
+                title: 'Cityscape',
+                desc: 'A city view taken during daytime'
+            },
+            {
+                src: 'panoramas/island.jpg', 
+                title: 'Island',
+                desc: 'A aerial view of island'
             }
         ];
 
-        function renderProjects(filter = '') {
-            const list = document.getElementById('projList');
-            list.innerHTML = '';
-            projectsData.filter(p => p.name.toLowerCase().includes(filter.toLowerCase())).forEach(proj => {
-                const thumb = proj.panos[0] ? proj.panos[0].src : '';
-                const card = document.createElement('div');
-                card.className = 'card reveal';
-                card.innerHTML = `
-                    <img src="${thumb}" alt="${proj.name}">
-                    <div class="card-overlay">
-                        <h3>${proj.name}</h3>
-                        <button class="cta" style="margin-top:1rem; padding:0.6rem 1.2rem; font-size:0.7rem;">View Tours</button>
-                    </div>`;
-                card.querySelector('.cta').addEventListener('click', () => {
-                    adminPanoramas = proj.panos;
-                    render360();
-                    document.getElementById('virtual-tours').scrollIntoView({ behavior: 'smooth' });
-                });
-                list.appendChild(card);
-                observer.observe(card);
+        const grid360 = document.getElementById('grid-360');
+        
+        adminPanoramas.forEach(pano => {
+            const card = document.createElement('div');
+            card.className = 'card reveal';
+            
+            // FIX: Replaced the pano-thumb placeholder with an actual <img> tag 
+            // so the panorama preview/thumbnail is visible in the grid.
+            card.innerHTML = `
+                <img src="${pano.src}" alt="${pano.title}">
+                <div class="card-overlay">
+                    <h3>${pano.title}</h3>
+                    <p>${pano.desc}</p>
+                    <button class="cta view-360-btn" data-src="${pano.src}" style="margin-top:1rem; padding:0.6rem 1.2rem; font-size:0.7rem;">Enter 360</button>
+                </div>
+            `;
+            
+            grid360.appendChild(card);
+            observer.observe(card); 
+            
+            card.querySelector('.view-360-btn').addEventListener('click', (e) => {
+                openViewer(e.target.getAttribute('data-src'));
             });
-        }
-        document.getElementById('projSearch').addEventListener('input', (e) => renderProjects(e.target.value));
-        renderProjects();
+        });
 
-        // --- 360 Viewer Logic (With Real Thumbnails) ---
-        let adminPanoramas = [
-            { src: 'https://pannellum.org/images/alma.jpg', title: 'Radio communication', desc: 'A antenna dish capturing radio signals' }
-            { src: 'panoramas/island.jpg', title: 'Island flyover', desc: 'A island view taken over a sky' }
-            { src: 'panoramas/city.jpg', title: 'Cityscape', desc: 'A city with peoples walking' }
-        ];
+        let viewer = null;
+        let pendingUrl = null;
 
-        function render360() {
-            const grid360 = document.getElementById('grid-360');
-            grid360.innerHTML = '';
-            adminPanoramas.forEach(pano => {
-                const card = document.createElement('div');
-                card.className = 'card reveal';
-                // Uses actual image as thumbnail
-                card.innerHTML = `
-                    <img src="${pano.src}" alt="${pano.title}">
-                    <div class="card-overlay">
-                        <h3>${pano.title}
-                        ${pano.desc}</p>
-                        <button class="cta view-360-btn" data-src="${pano.src}" style="margin-top:1rem; padding:0.6rem 1.2rem; font-size:0.7rem;">Enter 360</button>
-                    </div>`;
-                grid360.appendChild(card);
-                observer.observe(card);
-                card.querySelector('.view-360-btn').addEventListener('click', (e) => openViewer(e.target.getAttribute('data-src')));
-            });
-        }
-        render360();
-
-        let viewer = null, pendingUrl = null;
         function initPannellum(url) {
             if (viewer) { viewer.destroy(); viewer = null; }
             viewer = pannellum.viewer('panorama', {
-                type: 'equirectangular', panorama: url, autoLoad: true, orientationOnByDefault: true, showControls: true, hfov: 110
+                type: 'equirectangular',
+                panorama: url,
+                autoLoad: true,
+                orientationOnByDefault: true,
+                showControls: true,
+                hfov: 110
             });
         }
+
         function openViewer(imageUrl) {
-            document.getElementById('viewer-modal').classList.add('active');
+            const modal = document.getElementById('viewer-modal');
+            modal.classList.add('active');
             pendingUrl = imageUrl;
+            
             const gyroBtn = document.getElementById('gyro-btn');
             if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
                 gyroBtn.style.display = 'block';
                 gyroBtn.onclick = function() {
-                    DeviceOrientationEvent.requestPermission().then(() => { gyroBtn.style.display='none'; setTimeout(() => initPannellum(pendingUrl), 50); })
-                                                   .catch(() => { gyroBtn.style.display='none'; setTimeout(() => initPannellum(pendingUrl), 50); });
+                    DeviceOrientationEvent.requestPermission().then(function() {
+                        gyroBtn.style.display = 'none';
+                        initPannellum(pendingUrl);
+                    }).catch(function() {
+                        gyroBtn.style.display = 'none';
+                        initPannellum(pendingUrl);
+                    });
                 };
             } else {
                 gyroBtn.style.display = 'none';
-                setTimeout(() => initPannellum(pendingUrl), 50); // Delay ensures preview renders
+                setTimeout(() => { initPannellum(pendingUrl); }, 100);
             }
         }
+
         function closeViewer() {
-            document.getElementById('viewer-modal').classList.remove('active');
+            const modal = document.getElementById('viewer-modal');
+            modal.classList.remove('active');
             if (viewer) { viewer.destroy(); viewer = null; }
         }
+
         document.getElementById('user-360-upload').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            if (file) { openViewer(URL.createObjectURL(file)); }
+            if (file) {
+                const url = URL.createObjectURL(file);
+                openViewer(url);
+            }
             e.target.value = '';
         });
     </script>
