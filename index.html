@@ -234,7 +234,12 @@
         }
         .modal.active { display: flex; }
         #panorama { width: 100%; flex-grow: 1; background: #000; }
-        .modal-controls { position: absolute; top: 20px; right: 20px; z-index: 10001; }
+        
+        /* Updated Modal Controls for Reset Button */
+        .modal-controls { 
+            position: absolute; top: 20px; right: 20px; z-index: 10001; 
+            display: flex; gap: 10px; 
+        }
         .modal-controls button {
             background: rgba(12, 11, 10, 0.8); border: 1px solid var(--gold-primary);
             color: var(--gold-light); padding: 0.8rem 1.5rem; font-family: var(--font-ui);
@@ -242,6 +247,7 @@
             transition: var(--transition); backdrop-filter: blur(5px);
         }
         .modal-controls button:hover { background: var(--gold-primary); color: var(--bg-base); }
+        
         #gyro-btn {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             z-index: 10001; padding: 15px 25px; font-size: 16px; background: #fff; color: #000;
@@ -252,7 +258,6 @@
             text-align: center; margin-top: 4rem; padding: 3rem; border: 1px dashed rgba(197,160,89,0.4);
             background: var(--bg-surface);
         }
-        /* Removed unused .pano-thumb to keep code clean */
     </style>
 </head>
 <body>
@@ -334,11 +339,8 @@
     <!-- 360 VIRTUAL TOURS -->
     <section class="spaces" id="virtual-tours">
         <h2 class="section-title reveal gold-text" style="text-align:center; margin-bottom: 3rem;">Immersive 360 Tours</h2>
-        
-        <!-- Admin Gallery Grid (Auto-populated via JS) -->
         <div class="grid" id="grid-360"></div>
 
-        <!-- User Upload Box -->
         <div class="upload-box reveal">
             <h3 class="gold-text" style="margin-bottom:1rem; font-family: var(--font-head); letter-spacing: 0.1em;">Client Preview Tool</h3>
             <p style="margin-bottom:1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">Have your own 360 equirectangular image? Upload it below to view it instantly in fullscreen with gyroscope support on mobile.</p>
@@ -347,7 +349,7 @@
         </div>
     </section>
 
-    <!-- DISCIPLINES / DYNAMIC ICONS -->
+    <!-- DISCIPLINES -->
     <section class="disciplines" id="disciplines">
         <h2 class="section-title reveal gold-text">Our Disciplines</h2>
         <p class="reveal" style="max-width: 600px; margin: 0 auto;">We employ dynamic principles of design, ensuring every element breathes and interacts with its environment.</p>
@@ -364,7 +366,6 @@
                 <h4>Spatial Harmony</h4>
                 <p>Balancing proportion with purposeful voids.</p>
             </div>
-            
             <div class="icon-item reveal">
                 <div class="icon-wrapper">
                     <svg class="dyn-icon" viewBox="0 0 100 100">
@@ -375,7 +376,6 @@
                 <h4>Material Poetry</h4>
                 <p>Stone, brass, and silk in quiet conversation.</p>
             </div>
-            
             <div class="icon-item reveal">
                 <div class="icon-wrapper">
                     <svg class="dyn-icon" viewBox="0 0 100 100">
@@ -417,6 +417,8 @@
     <!-- 360 MODAL VIEWER -->
     <div id="viewer-modal" class="modal">
         <div class="modal-controls">
+            <!-- New Reset & Gyro Button -->
+            <button id="reset-gyro-btn" onclick="resetAndActivateGyro()" style="display:none;">Reset & Gyro</button>
             <button onclick="closeViewer()">Close ✕</button>
         </div>
         <button id="gyro-btn">Tap to Enable 360 Gyroscope</button>
@@ -426,7 +428,7 @@
     <!-- Pannellum 360 Viewer JS -->
     <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 
-    <!-- JAVASCRIPT FOR DYNAMIC INTERACTION -->
+    <!-- JAVASCRIPT -->
     <script>
         // 1. Navbar Scroll Effect
         const header = document.getElementById('header');
@@ -443,19 +445,16 @@
             parallaxBg.style.transform = `translate(${x}px, ${y}px)`;
         });
 
-        // 3. Scroll Reveal Animations (Intersection Observer)
+        // 3. Scroll Reveal Animations
         const reveals = document.querySelectorAll('.reveal');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('active');
             });
         }, { threshold: 0.15 });
-        
         reveals.forEach(el => observer.observe(el));
 
-        // 4. Dynamic SVG Stroke Animation on Load
+        // 4. Dynamic SVG Stroke Animation
         document.querySelectorAll('.dyn-icon').forEach(icon => {
             const paths = icon.querySelectorAll('path, circle, line');
             paths.forEach(p => {
@@ -469,6 +468,7 @@
             });
         });
 
+        // 5. 360 VIRTUAL TOURS LOGIC (Upgraded Gyro Control)
         // 5. 360 VIRTUAL TOURS LOGIC
         const adminPanoramas = [
             {
@@ -499,13 +499,9 @@
         ];
 
         const grid360 = document.getElementById('grid-360');
-        
         adminPanoramas.forEach(pano => {
             const card = document.createElement('div');
             card.className = 'card reveal';
-            
-            // FIX: Replaced the pano-thumb placeholder with an actual <img> tag 
-            // so the panorama preview/thumbnail is visible in the grid.
             card.innerHTML = `
                 <img src="${pano.src}" alt="${pano.title}">
                 <div class="card-overlay">
@@ -514,10 +510,8 @@
                     <button class="cta view-360-btn" data-src="${pano.src}" style="margin-top:1rem; padding:0.6rem 1.2rem; font-size:0.7rem;">Enter 360</button>
                 </div>
             `;
-            
             grid360.appendChild(card);
             observer.observe(card); 
-            
             card.querySelector('.view-360-btn').addEventListener('click', (e) => {
                 openViewer(e.target.getAttribute('data-src'));
             });
@@ -525,6 +519,8 @@
 
         let viewer = null;
         let pendingUrl = null;
+        let gyroActive = false;
+        let gyroPermissionGranted = false;
 
         function initPannellum(url) {
             if (viewer) { viewer.destroy(); viewer = null; }
@@ -532,10 +528,57 @@
                 type: 'equirectangular',
                 panorama: url,
                 autoLoad: true,
-                orientationOnByDefault: true,
                 showControls: true,
                 hfov: 110
+                // orientationOnByDefault removed to allow manual reset/control
             });
+            // Listen for screen rotation to fix Portrait/Landscape gyro lock
+            window.addEventListener('orientationchange', handleOrientationChange);
+        }
+
+        function handleOrientationChange() {
+            // If user rotates phone, restart gyro to recalculate screen axis
+            if (gyroActive && viewer) {
+                viewer.stopOrientation();
+                gyroActive = false;
+                setTimeout(() => {
+                    viewer.startOrientation();
+                    gyroActive = true;
+                }, 500); // Wait for layout to settle
+            }
+        }
+
+        function requestGyroPermissionAndStart() {
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission().then(function(state) {
+                    if (state === 'granted') {
+                        gyroPermissionGranted = true;
+                        resetAndActivateGyro();
+                    } else {
+                        alert("Gyroscope access denied. You can still look around by dragging.");
+                    }
+                }).catch(console.error);
+            } else {
+                gyroPermissionGranted = true;
+                resetAndActivateGyro();
+            }
+        }
+
+        function resetAndActivateGyro() {
+            if (!viewer) return;
+            
+            viewer.stopOrientation();
+            gyroActive = false;
+            
+            // Reset to Front View (yaw 0) and Real-Time Ground/Horizon (pitch 0)
+            viewer.setYaw(0, false);
+            viewer.setPitch(0, false);
+            
+            // Restart gyro - anchors current physical direction to this front view
+            setTimeout(() => {
+                viewer.startOrientation();
+                gyroActive = true;
+            }, 100);
         }
 
         function openViewer(imageUrl) {
@@ -544,27 +587,45 @@
             pendingUrl = imageUrl;
             
             const gyroBtn = document.getElementById('gyro-btn');
+            const resetBtn = document.getElementById('reset-gyro-btn');
+            
+            initPannellum(pendingUrl);
+            
+            // Handle iOS 13+ Gyro Permission
             if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                gyroBtn.style.display = 'block';
-                gyroBtn.onclick = function() {
-                    DeviceOrientationEvent.requestPermission().then(function() {
+                if (!gyroPermissionGranted) {
+                    gyroBtn.style.display = 'block';
+                    resetBtn.style.display = 'none';
+                    gyroBtn.onclick = function() {
                         gyroBtn.style.display = 'none';
-                        initPannellum(pendingUrl);
-                    }).catch(function() {
-                        gyroBtn.style.display = 'none';
-                        initPannellum(pendingUrl);
-                    });
-                };
+                        requestGyroPermissionAndStart();
+                        resetBtn.style.display = 'block';
+                    };
+                } else {
+                    gyroBtn.style.display = 'none';
+                    resetBtn.style.display = 'block';
+                    resetAndActivateGyro();
+                }
             } else {
                 gyroBtn.style.display = 'none';
-                setTimeout(() => { initPannellum(pendingUrl); }, 100);
+                resetBtn.style.display = 'block';
+                // Auto-start gyro for Android/Others if mobile
+                if (/Mobi|Android/i.test(navigator.userAgent)) {
+                    resetAndActivateGyro();
+                }
             }
         }
 
         function closeViewer() {
             const modal = document.getElementById('viewer-modal');
             modal.classList.remove('active');
-            if (viewer) { viewer.destroy(); viewer = null; }
+            if (viewer) { 
+                viewer.stopOrientation();
+                viewer.destroy(); 
+                viewer = null; 
+            }
+            gyroActive = false;
+            window.removeEventListener('orientationchange', handleOrientationChange);
         }
 
         document.getElementById('user-360-upload').addEventListener('change', function(e) {
