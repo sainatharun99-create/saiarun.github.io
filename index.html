@@ -6,10 +6,13 @@
     <meta name="description" content="SaiArun - Neo-Classical Interior Design. Everytime failing leads to a new beginning!">
     <title>SaiArun | Neo-Classical Interior Design</title>
     
-    <!-- Google Fonts for Neo-Classical Typography -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+
+    <!-- Pannellum 360 Viewer CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
 
     <style>
         /* ================= VARIABLES & RESET ================= */
@@ -28,7 +31,6 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         html { scroll-behavior: smooth; }
 
         body {
@@ -39,7 +41,6 @@
             line-height: 1.6;
         }
 
-        /* Subtle Film Grain Texture for Premium Feel */
         body::before {
             content: '';
             position: fixed;
@@ -98,7 +99,6 @@
             background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.08) 0%, transparent 60%);
             z-index: 0; transition: transform 0.2s ease-out;
         }
-        /* Floating Classical Arch SVG */
         .hero-arch {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 600px; height: 600px; opacity: 0.03; z-index: 0;
@@ -116,7 +116,8 @@
             display: inline-block; padding: 1rem 3rem; border: 1px solid var(--gold-primary);
             color: var(--gold-primary); text-decoration: none; font-family: var(--font-ui);
             font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
-            position: relative; overflow: hidden; transition: var(--transition);
+            position: relative; overflow: hidden; transition: var(--transition); cursor: pointer;
+            background: transparent;
         }
         .cta::before {
             content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
@@ -166,13 +167,12 @@
         .card:hover .card-overlay { transform: translateY(0); opacity: 1; }
         .card-overlay h3 { font-size: 1.5rem; color: var(--gold-light); margin-bottom: 0.5rem; }
 
-        /* ================= DYNAMIC ICONS / SERVICES ================= */
+        /* ================= DISCIPLINES ================= */
         .disciplines { padding: 8rem 4rem; background: var(--bg-surface); text-align: center; }
         .icon-grid { display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; margin-top: 4rem; }
         .icon-item { width: 200px; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
         .icon-wrapper { width: 80px; height: 80px; position: relative; }
         
-        /* Dynamic SVG Animations */
         .dyn-icon { width: 100%; height: 100%; fill: none; stroke: var(--gold-primary); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
         .dyn-icon circle, .dyn-icon path, .dyn-icon line { transition: stroke-dashoffset 2s ease; }
         
@@ -210,7 +210,30 @@
         .socials a { color: var(--text-muted); text-decoration: none; transition: var(--transition); }
         .socials a:hover { color: var(--gold-light); }
 
-        /* ================= SCROLL REVEAL ANIMATION ================= */
+        /* ================= 360 MODAL VIEWER ================= */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; z-index: 10000;
+            display: none; flex-direction: column;
+        }
+        .modal.active { display: flex; }
+        #panorama { width: 100%; flex-grow: 1; background: #000; }
+        .modal-controls { position: absolute; top: 20px; right: 20px; z-index: 10001; }
+        .modal-controls button {
+            background: rgba(12, 11, 10, 0.8); border: 1px solid var(--gold-primary);
+            color: var(--gold-light); padding: 0.8rem 1.5rem; font-family: var(--font-ui);
+            cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem;
+            transition: var(--transition); backdrop-filter: blur(5px);
+        }
+        .modal-controls button:hover { background: var(--gold-primary); color: var(--bg-base); }
+        #gyro-btn {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 10001; padding: 15px 25px; font-size: 16px; background: #fff; color: #000;
+            border: none; border-radius: 8px; cursor: pointer; display: none; font-family: var(--font-ui);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-weight: bold;
+        }
+
+        /* ================= SCROLL REVEAL ================= */
         .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
@@ -233,7 +256,6 @@
     <!-- HEADER -->
     <header id="header">
         <div class="logo" onclick="window.scrollTo(0,0)">
-            <!-- Dynamic Logo SVG -->
             <svg viewBox="0 0 100 100">
                 <path d="M50 10 L90 90 L10 90 Z" stroke-dasharray="200" stroke-dashoffset="0"/>
                 <circle cx="50" cy="65" r="15" class="spin-slow" stroke-dasharray="5 5"/>
@@ -243,6 +265,7 @@
         <nav>
             <a href="#philosophy">Philosophy</a>
             <a href="#spaces">Spaces</a>
+            <a href="#virtual-tours">360 Tours</a>
             <a href="#disciplines">Disciplines</a>
             <a href="#contact">Dialogue</a>
         </nav>
@@ -251,7 +274,6 @@
     <!-- HERO -->
     <section class="hero" id="home">
         <div class="hero-bg" id="parallax"></div>
-        <!-- Background Arch -->
         <svg class="hero-arch" viewBox="0 0 100 100">
             <path d="M10 90 L10 50 A40 40 0 0 1 90 50 L90 90" fill="none" stroke="currentColor" stroke-width="2"/>
             <line x1="50" y1="10" x2="50" y2="90" stroke="currentColor" stroke-width="1"/>
@@ -277,7 +299,7 @@
         </div>
     </section>
 
-    <!-- SPACES / PORTFOLIO -->
+    <!-- SPACES / PORTFOLIO (2D) -->
     <section class="spaces" id="spaces">
         <h2 class="section-title reveal gold-text" style="text-align:center; margin-bottom: 3rem;">Curated Spaces</h2>
         <div class="grid">
@@ -305,13 +327,28 @@
         </div>
     </section>
 
-    <!-- DISCIPLINES / DYNAMIC ICONS -->
+    <!-- 360 VIRTUAL TOURS -->
+    <section class="spaces" id="virtual-tours">
+        <h2 class="section-title reveal gold-text" style="text-align:center; margin-bottom: 3rem;">Immersive 360 Tours</h2>
+        
+        <!-- Admin Gallery Grid (Auto-populated via JS) -->
+        <div class="grid" id="grid-360"></div>
+
+        <!-- User Upload Box -->
+        <div class="upload-box reveal" style="text-align:center; margin-top: 4rem; padding: 3rem; border: 1px dashed rgba(197,160,89,0.4); background: var(--bg-surface);">
+            <h3 class="gold-text" style="margin-bottom:1rem; font-family: var(--font-head); letter-spacing: 0.1em;">Client Preview Tool</h3>
+            <p style="margin-bottom:1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">Have your own 360 equirectangular image? Upload it below to view it instantly in fullscreen with gyroscope support on mobile.</p>
+            <input type="file" id="user-360-upload" accept="image/jpeg, image/png" style="display:none;" />
+            <button class="cta" onclick="document.getElementById('user-360-upload').click()">Upload & View 360</button>
+        </div>
+    </section>
+
+    <!-- DISCIPLINES -->
     <section class="disciplines" id="disciplines">
         <h2 class="section-title reveal gold-text">Our Disciplines</h2>
         <p class="reveal" style="max-width: 600px; margin: 0 auto;">We employ dynamic principles of design, ensuring every element breathes and interacts with its environment.</p>
         
         <div class="icon-grid">
-            <!-- Icon 1: Spatial Harmony (Interlocking) -->
             <div class="icon-item reveal">
                 <div class="icon-wrapper">
                     <svg class="dyn-icon float-icon" viewBox="0 0 100 100">
@@ -324,7 +361,6 @@
                 <p>Balancing proportion with purposeful voids.</p>
             </div>
             
-            <!-- Icon 2: Material Poetry (Urn/Vase) -->
             <div class="icon-item reveal">
                 <div class="icon-wrapper">
                     <svg class="dyn-icon" viewBox="0 0 100 100">
@@ -336,7 +372,6 @@
                 <p>Stone, brass, and silk in quiet conversation.</p>
             </div>
             
-            <!-- Icon 3: Light & Shadow (Sun/Rays) -->
             <div class="icon-item reveal">
                 <div class="icon-wrapper">
                     <svg class="dyn-icon" viewBox="0 0 100 100">
@@ -375,7 +410,19 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT FOR DYNAMIC INTERACTION -->
+    <!-- 360 MODAL VIEWER -->
+    <div id="viewer-modal" class="modal">
+        <div class="modal-controls">
+            <button onclick="closeViewer()">Close ✕</button>
+        </div>
+        <button id="gyro-btn">Tap to Enable 360 Gyroscope</button>
+        <div id="panorama"></div>
+    </div>
+
+    <!-- Pannellum 360 Viewer JS -->
+    <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+
+    <!-- WEBSITE LOGIC -->
     <script>
         // 1. Navbar Scroll Effect
         const header = document.getElementById('header');
@@ -384,7 +431,7 @@
             else header.classList.remove('scrolled');
         });
 
-        // 2. Mesmerizing Parallax Effect on Hero
+        // 2. Parallax Effect
         const parallaxBg = document.getElementById('parallax');
         document.addEventListener('mousemove', (e) => {
             const x = (e.clientX / window.innerWidth - 0.5) * 30;
@@ -392,31 +439,122 @@
             parallaxBg.style.transform = `translate(${x}px, ${y}px)`;
         });
 
-        // 3. Scroll Reveal Animations (Intersection Observer)
+        // 3. Scroll Reveal Animations
         const reveals = document.querySelectorAll('.reveal');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('active');
             });
         }, { threshold: 0.15 });
-        
         reveals.forEach(el => observer.observe(el));
 
-        // 4. Dynamic SVG Stroke Animation on Load
+        // 4. Dynamic SVG Stroke Animation
         document.querySelectorAll('.dyn-icon').forEach(icon => {
             const paths = icon.querySelectorAll('path, circle, line');
             paths.forEach(p => {
                 const len = p.getTotalLength ? p.getTotalLength() : 100;
                 p.style.strokeDasharray = len;
                 p.style.strokeDashoffset = len;
-                // Trigger animation
                 setTimeout(() => {
                     p.style.transition = 'stroke-dashoffset 2s ease-out';
                     p.style.strokeDashoffset = '0';
                 }, 300);
             });
+        });
+
+        // 5. 360 VIRTUAL TOURS LOGIC
+        // ==========================================================
+        // EASY EDIT: Add or remove items from this array to manage 
+        // your 360 gallery. Use paths like 'panoramas/your.jpg'
+        // ==========================================================
+        const adminPanoramas = [
+            {
+                src: 'https://pannellum.org/images/alma.jpg', // Demo Image (Replace with 'panoramas/your-image.jpg')
+                title: 'The Marble Silence 360',
+                desc: 'A study in symmetry and stone (Demo).'
+            },
+            {
+                src: 'https://pannellum.org/images/cerro-toco-0.jpg', // Demo Image (Replace with 'panoramas/your-image2.jpg')
+                title: 'Void & Gold 360',
+                desc: 'Where emptiness becomes ornament (Demo).'
+            }
+        ];
+
+        const grid360 = document.getElementById('grid-360');
+        adminPanoramas.forEach(pano => {
+            const card = document.createElement('div');
+            card.className = 'card reveal';
+            // Elegant placeholder thumbnail for fast loading
+            card.innerHTML = `
+                <div style="width:100%; height:100%; background:var(--bg-surface); display:flex; align-items:center; justify-content:center; border:1px solid rgba(197,160,89,0.1);">
+                    <svg viewBox="0 0 100 100" style="width:60px; height:60px; fill:none; stroke:var(--gold-primary); stroke-width:1.5; opacity:0.6;"><circle cx="50" cy="50" r="40"/><path d="M50 10 V90 M10 50 H90"/></svg>
+                </div>
+                <div class="card-overlay">
+                    <h3>${pano.title}</h3>
+                    <p>${pano.desc}</p>
+                    <button class="cta view-360-btn" data-src="${pano.src}" style="margin-top:1rem; padding:0.6rem 1.2rem; font-size:0.7rem;">Enter 360</button>
+                </div>
+            `;
+            grid360.appendChild(card);
+            observer.observe(card); // Trigger scroll animation
+            card.querySelector('.view-360-btn').addEventListener('click', (e) => {
+                openViewer(e.target.getAttribute('data-src'));
+            });
+        });
+
+        let viewer = null;
+        let pendingUrl = null;
+
+        function initPannellum(url) {
+            if (viewer) { viewer.destroy(); viewer = null; }
+            viewer = pannellum.viewer('panorama', {
+                type: 'equirectangular',
+                panorama: url,
+                autoLoad: true,
+                orientationOnByDefault: true,
+                showControls: true,
+                hfov: 110
+            });
+        }
+
+        function openViewer(imageUrl) {
+            const modal = document.getElementById('viewer-modal');
+            modal.classList.add('active');
+            pendingUrl = imageUrl;
+            
+            const gyroBtn = document.getElementById('gyro-btn');
+            // iOS 13+ requires explicit user permission for Gyroscope
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                gyroBtn.style.display = 'block';
+                gyroBtn.onclick = function() {
+                    DeviceOrientationEvent.requestPermission().then(function(state) {
+                        gyroBtn.style.display = 'none';
+                        initPannellum(pendingUrl);
+                    }).catch(function() {
+                        gyroBtn.style.display = 'none';
+                        initPannellum(pendingUrl);
+                    });
+                };
+            } else {
+                gyroBtn.style.display = 'none';
+                setTimeout(() => { initPannellum(pendingUrl); }, 100);
+            }
+        }
+
+        function closeViewer() {
+            const modal = document.getElementById('viewer-modal');
+            modal.classList.remove('active');
+            if (viewer) { viewer.destroy(); viewer = null; }
+        }
+
+        // User Upload Handling (Client-Side only, no server needed)
+        document.getElementById('user-360-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file); // Fast local blob URL
+                openViewer(url);
+            }
+            e.target.value = ''; // Reset input
         });
     </script>
 </body>
