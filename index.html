@@ -252,14 +252,14 @@
             card.querySelector('.view-360-btn').addEventListener('click', (e) => openViewer(e.target.getAttribute('data-src')));
         });
 
-        // --- CUSTOM GYROSCOPE CONTROLLER (Fixes Portrait/Landscape & Ground Sync) ---
+        // --- CUSTOM GYROSCOPE CONTROLLER (Landscape Initialized) ---
         let viewer = null;
         let gyroActive = false;
         let gyroPermissionGranted = false;
         
         let targetYaw = 0, targetPitch = 0;
         let currentYaw = 0, currentPitch = 0;
-        let lastAlpha = 0, lastBeta = 0;
+        let lastAlpha = null, lastBeta = null;
         let calibrationDone = false;
         let animFrameId = null;
 
@@ -287,18 +287,26 @@
             let beta = e.beta;   
             let gamma = e.gamma; 
             
-            // Live screen orientation mapping
-            let screenAngle = (window.screen.orientation && window.screen.orientation.angle) || window.orientation || 0;
+            // Live screen orientation mapping (Forces Landscape as Baseline)
+            let screenAngle = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
             let yawDeg, pitchDeg;
             
             if (screenAngle === 90) {
-                pitchDeg = -gamma; yawDeg = alpha;
+                // Landscape (Top to Left)
+                pitchDeg = beta; 
+                yawDeg = alpha;
             } else if (screenAngle === -90 || screenAngle === 270) {
-                pitchDeg = gamma; yawDeg = alpha;
+                // Landscape (Top to Right)
+                pitchDeg = beta;
+                yawDeg = alpha + 180;
             } else if (screenAngle === 180) {
-                pitchDeg = -beta; yawDeg = alpha;
+                // Portrait Upside Down
+                pitchDeg = beta + 90;
+                yawDeg = alpha + 180;
             } else {
-                pitchDeg = beta; yawDeg = alpha;
+                // Portrait Upright (Offset by 90 to sync with Landscape Forward)
+                pitchDeg = beta - 90;
+                yawDeg = alpha + 90;
             }
             
             pitchDeg = Math.max(-90, Math.min(90, pitchDeg));
@@ -352,6 +360,11 @@
             const modal = document.getElementById('viewer-modal');
             modal.classList.add('active');
             
+            // Attempt to Force Landscape Mode for Mobile
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch(() => {});
+            }
+            
             if (viewer) { viewer.destroy(); viewer = null; }
             viewer = pannellum.viewer('panorama', {
                 type: 'equirectangular',
@@ -393,6 +406,12 @@
             const modal = document.getElementById('viewer-modal');
             modal.classList.remove('active');
             stopCustomGyro();
+            
+            // Unlock Orientation
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+            
             if (viewer) { viewer.destroy(); viewer = null; }
             document.getElementById('gyro-btn').style.display = 'none';
         }
