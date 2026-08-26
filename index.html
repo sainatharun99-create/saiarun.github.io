@@ -210,11 +210,10 @@
         .socials a { color: var(--text-muted); text-decoration: none; transition: var(--transition); }
         .socials a:hover { color: var(--gold-light); }
 
-        /* ================= 360 MODAL VIEWER ================= */
+        /* ================= 360 MODAL VIEWER & UPLOAD ================= */
         .modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; z-index: 10000;
-            display: none; flex-direction: column;
+            background: #000; z-index: 10000; display: none; flex-direction: column;
         }
         .modal.active { display: flex; }
         #panorama { width: 100%; flex-grow: 1; background: #000; }
@@ -231,6 +230,10 @@
             z-index: 10001; padding: 15px 25px; font-size: 16px; background: #fff; color: #000;
             border: none; border-radius: 8px; cursor: pointer; display: none; font-family: var(--font-ui);
             box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-weight: bold;
+        }
+        .upload-box {
+            text-align: center; margin-top: 4rem; padding: 3rem; border: 1px dashed rgba(197,160,89,0.4);
+            background: var(--bg-surface);
         }
 
         /* ================= SCROLL REVEAL ================= */
@@ -278,7 +281,6 @@
             <path d="M10 90 L10 50 A40 40 0 0 1 90 50 L90 90" fill="none" stroke="currentColor" stroke-width="2"/>
             <line x1="50" y1="10" x2="50" y2="90" stroke="currentColor" stroke-width="1"/>
         </svg>
-        
         <div class="hero-content">
             <h1 class="reveal gold-text">SaiArun</h1>
             <p class="slogan reveal">"Everytime failing leads to a new beginning!"</p>
@@ -299,30 +301,21 @@
         </div>
     </section>
 
-    <!-- SPACES / PORTFOLIO (2D) -->
+    <!-- SPACES (2D) -->
     <section class="spaces" id="spaces">
         <h2 class="section-title reveal gold-text" style="text-align:center; margin-bottom: 3rem;">Curated Spaces</h2>
         <div class="grid">
             <div class="card reveal">
                 <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800" alt="Classical Living">
-                <div class="card-overlay">
-                    <h3>The Marble Silence</h3>
-                    <p>A study in symmetry and stone.</p>
-                </div>
+                <div class="card-overlay"><h3>The Marble Silence</h3><p>A study in symmetry and stone.</p></div>
             </div>
             <div class="card reveal">
                 <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=800" alt="Minimalist Classical">
-                <div class="card-overlay">
-                    <h3>Void & Gold</h3>
-                    <p>Where emptiness becomes ornament.</p>
-                </div>
+                <div class="card-overlay"><h3>Void & Gold</h3><p>Where emptiness becomes ornament.</p></div>
             </div>
             <div class="card reveal">
                 <img src="https://images.unsplash.com/photo-1615875605825-5eb9bb5d52ac?auto=format&fit=crop&q=80&w=800" alt="Sculptural Interior">
-                <div class="card-overlay">
-                    <h3>The Apollo Wing</h3>
-                    <p>Light sculpting the eternal form.</p>
-                </div>
+                <div class="card-overlay"><h3>The Apollo Wing</h3><p>Light sculpting the eternal form.</p></div>
             </div>
         </div>
     </section>
@@ -330,12 +323,10 @@
     <!-- 360 VIRTUAL TOURS -->
     <section class="spaces" id="virtual-tours">
         <h2 class="section-title reveal gold-text" style="text-align:center; margin-bottom: 3rem;">Immersive 360 Tours</h2>
-        
-        <!-- Admin Gallery Grid (Auto-populated via JS) -->
         <div class="grid" id="grid-360"></div>
 
-        <!-- User Upload Box -->
-        <div class="upload-box reveal" style="text-align:center; margin-top: 4rem; padding: 3rem; border: 1px dashed rgba(197,160,89,0.4); background: var(--bg-surface);">
+        <!-- User Upload Tool -->
+        <div class="upload-box reveal">
             <h3 class="gold-text" style="margin-bottom:1rem; font-family: var(--font-head); letter-spacing: 0.1em;">Client Preview Tool</h3>
             <p style="margin-bottom:1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">Have your own 360 equirectangular image? Upload it below to view it instantly in fullscreen with gyroscope support on mobile.</p>
             <input type="file" id="user-360-upload" accept="image/jpeg, image/png" style="display:none;" />
@@ -347,7 +338,6 @@
     <section class="disciplines" id="disciplines">
         <h2 class="section-title reveal gold-text">Our Disciplines</h2>
         <p class="reveal" style="max-width: 600px; margin: 0 auto;">We employ dynamic principles of design, ensuring every element breathes and interacts with its environment.</p>
-        
         <div class="icon-grid">
             <div class="icon-item reveal">
                 <div class="icon-wrapper">
@@ -357,10 +347,8 @@
                         <path d="M50 10 V90 M10 50 H90" stroke-width="0.5" opacity="0.5"/>
                     </svg>
                 </div>
-                <h4>Spatial Harmony</h4>
-                <p>Balancing proportion with purposeful voids.</p>
+                <h4>Spatial Harmony</h4><p>Balancing proportion with purposeful voids.</p>
             </div>
-            
             <div class="icon-item reveal">
                 <div class="icon-wrapper">
                     <svg class="dyn-icon" viewBox="0 0 100 100">
@@ -368,10 +356,8 @@
                         <line x1="20" y1="50" x2="80" y2="50" stroke-dasharray="2 4" class="spin-slow"/>
                     </svg>
                 </div>
-                <h4>Material Poetry</h4>
-                <p>Stone, brass, and silk in quiet conversation.</p>
+                <h4>Material Poetry</h4><p>Stone, brass, and silk in quiet conversation.</p>
             </div>
-            
             <div class="icon-item reveal">
                 <div class="icon-wrapper">
                     <svg class="dyn-icon" viewBox="0 0 100 100">
@@ -382,8 +368,7 @@
                         <line x1="75" y1="50" x2="90" y2="50" class="spin-slow" transform-origin="50 50"/>
                     </svg>
                 </div>
-                <h4>Light & Shadow</h4>
-                <p>Choreographing the sun's daily theatre.</p>
+                <h4>Light & Shadow</h4><p>Choreographing the sun's daily theatre.</p>
             </div>
         </div>
     </section>
@@ -403,35 +388,27 @@
     <!-- FOOTER -->
     <footer>
         <div>&copy; 2023 SaiArun Atelier. All rights reserved.</div>
-        <div class="socials">
-            <a href="#">Instagram</a>
-            <a href="#">Pinterest</a>
-            <a href="#">Journal</a>
-        </div>
+        <div class="socials"><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">Journal</a></div>
     </footer>
 
-    <!-- 360 MODAL VIEWER -->
+    <!-- 360 MODAL -->
     <div id="viewer-modal" class="modal">
-        <div class="modal-controls">
-            <button onclick="closeViewer()">Close ✕</button>
-        </div>
+        <div class="modal-controls"><button onclick="closeViewer()">Close ✕</button></div>
         <button id="gyro-btn">Tap to Enable 360 Gyroscope</button>
         <div id="panorama"></div>
     </div>
 
-    <!-- Pannellum 360 Viewer JS -->
+    <!-- Pannellum JS -->
     <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 
-    <!-- WEBSITE LOGIC -->
+    <!-- LOGIC -->
     <script>
-        // 1. Navbar Scroll Effect
+        // Navbar & Parallax
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) header.classList.add('scrolled');
             else header.classList.remove('scrolled');
         });
-
-        // 2. Parallax Effect
         const parallaxBg = document.getElementById('parallax');
         document.addEventListener('mousemove', (e) => {
             const x = (e.clientX / window.innerWidth - 0.5) * 30;
@@ -439,42 +416,34 @@
             parallaxBg.style.transform = `translate(${x}px, ${y}px)`;
         });
 
-        // 3. Scroll Reveal Animations
-        const reveals = document.querySelectorAll('.reveal');
+        // Scroll Reveal
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, { threshold: 0.15 });
-        reveals.forEach(el => observer.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 4. Dynamic SVG Stroke Animation
+        // SVG Animations
         document.querySelectorAll('.dyn-icon').forEach(icon => {
-            const paths = icon.querySelectorAll('path, circle, line');
-            paths.forEach(p => {
+            icon.querySelectorAll('path, circle, line').forEach(p => {
                 const len = p.getTotalLength ? p.getTotalLength() : 100;
-                p.style.strokeDasharray = len;
-                p.style.strokeDashoffset = len;
-                setTimeout(() => {
-                    p.style.transition = 'stroke-dashoffset 2s ease-out';
-                    p.style.strokeDashoffset = '0';
-                }, 300);
+                p.style.strokeDasharray = len; p.style.strokeDashoffset = len;
+                setTimeout(() => { p.style.transition = 'stroke-dashoffset 2s ease-out'; p.style.strokeDashoffset = '0'; }, 300);
             });
         });
 
-        // 5. 360 VIRTUAL TOURS LOGIC
         // ==========================================================
-        // EASY EDIT: Add or remove items from this array to manage 
-        // your 360 gallery. Use paths like 'panoramas/your.jpg'
+        // EASY EDIT: Manage your 360 gallery here
+        // Add a line for each image in your 'panoramas' folder
         // ==========================================================
         const adminPanoramas = [
             {
-                src: 'https://pannellum.org/images/alma.jpg', // Demo Image (Replace with 'panoramas/your-image.jpg')
+                // Replace src with 'panoramas/your-image.jpg' after uploading
+                src: 'https://pannellum.org/images/alma.jpg', 
                 title: 'The Marble Silence 360',
                 desc: 'A study in symmetry and stone (Demo).'
             },
             {
-                src: 'https://pannellum.org/images/cerro-toco-0.jpg', // Demo Image (Replace with 'panoramas/your-image2.jpg')
+                src: 'https://pannellum.org/images/cerro-toco-0.jpg', 
                 title: 'Void & Gold 360',
                 desc: 'Where emptiness becomes ornament (Demo).'
             }
@@ -484,78 +453,9 @@
         adminPanoramas.forEach(pano => {
             const card = document.createElement('div');
             card.className = 'card reveal';
-            // Elegant placeholder thumbnail for fast loading
             card.innerHTML = `
                 <div style="width:100%; height:100%; background:var(--bg-surface); display:flex; align-items:center; justify-content:center; border:1px solid rgba(197,160,89,0.1);">
                     <svg viewBox="0 0 100 100" style="width:60px; height:60px; fill:none; stroke:var(--gold-primary); stroke-width:1.5; opacity:0.6;"><circle cx="50" cy="50" r="40"/><path d="M50 10 V90 M10 50 H90"/></svg>
                 </div>
                 <div class="card-overlay">
-                    <h3>${pano.title}</h3>
-                    <p>${pano.desc}</p>
-                    <button class="cta view-360-btn" data-src="${pano.src}" style="margin-top:1rem; padding:0.6rem 1.2rem; font-size:0.7rem;">Enter 360</button>
-                </div>
-            `;
-            grid360.appendChild(card);
-            observer.observe(card); // Trigger scroll animation
-            card.querySelector('.view-360-btn').addEventListener('click', (e) => {
-                openViewer(e.target.getAttribute('data-src'));
-            });
-        });
-
-        let viewer = null;
-        let pendingUrl = null;
-
-        function initPannellum(url) {
-            if (viewer) { viewer.destroy(); viewer = null; }
-            viewer = pannellum.viewer('panorama', {
-                type: 'equirectangular',
-                panorama: url,
-                autoLoad: true,
-                orientationOnByDefault: true,
-                showControls: true,
-                hfov: 110
-            });
-        }
-
-        function openViewer(imageUrl) {
-            const modal = document.getElementById('viewer-modal');
-            modal.classList.add('active');
-            pendingUrl = imageUrl;
-            
-            const gyroBtn = document.getElementById('gyro-btn');
-            // iOS 13+ requires explicit user permission for Gyroscope
-            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                gyroBtn.style.display = 'block';
-                gyroBtn.onclick = function() {
-                    DeviceOrientationEvent.requestPermission().then(function(state) {
-                        gyroBtn.style.display = 'none';
-                        initPannellum(pendingUrl);
-                    }).catch(function() {
-                        gyroBtn.style.display = 'none';
-                        initPannellum(pendingUrl);
-                    });
-                };
-            } else {
-                gyroBtn.style.display = 'none';
-                setTimeout(() => { initPannellum(pendingUrl); }, 100);
-            }
-        }
-
-        function closeViewer() {
-            const modal = document.getElementById('viewer-modal');
-            modal.classList.remove('active');
-            if (viewer) { viewer.destroy(); viewer = null; }
-        }
-
-        // User Upload Handling (Client-Side only, no server needed)
-        document.getElementById('user-360-upload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const url = URL.createObjectURL(file); // Fast local blob URL
-                openViewer(url);
-            }
-            e.target.value = ''; // Reset input
-        });
-    </script>
-</body>
-</html>
+                    <h3>${pano.title}
